@@ -51,8 +51,8 @@
     _recordBtn.frame = CGRectMake(20, 160, 200, 50);
     [_recordBtn setTitle:@"RECORD" forState:UIControlStateNormal];
     [_recordBtn setBackgroundColor:[UIColor greenColor]];
-    [_recordBtn addTarget:self action:@selector(recordClickStart:) forControlEvents:UIControlEventTouchUpInside];
-    //    [_recordBtn addTarget:self action:@selector(recordClickStop:) forControlEvents:UIControlEventTouchUpInside];
+    [_recordBtn addTarget:self action:@selector(recordClickStart:) forControlEvents:UIControlEventTouchDown];
+        [_recordBtn addTarget:self action:@selector(recordClickStop:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_recordBtn];
     
     _stopBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -60,7 +60,7 @@
     [_stopBtn setTitle:@"Stop" forState:UIControlStateNormal];
     [_stopBtn setBackgroundColor:[UIColor greenColor]];
     [_stopBtn addTarget:self action:@selector(recordClickStop:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:_stopBtn];
+//    [self.view addSubview:_stopBtn];
     
 }
 -(void)playClick:(id)sender
@@ -93,7 +93,11 @@
 {
     NSLog(@"start record");
     if (!_myTimer) {
-        _myTimer = [NSTimer timerWithTimeInterval:1.0f target:self selector:@selector(timeCount) userInfo:nil repeats:YES];
+        _myTimer = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(timeCount) userInfo:nil repeats:YES];
+        
+    }
+    else
+    {
         [_myTimer fire];
     }
     [self statrRecord];
@@ -169,7 +173,7 @@
     if (!_audioRecorder) {
         _audioRecorder = [[AVAudioRecorder alloc]initWithURL:recorderURL settings:settings error:&recorderr];
         _audioRecorder.delegate = self;
-//        _audioRecorder.meteringEnabled = YES; //是否启用录音测量，如果启用录音测量可以获得录音分贝等数据信息
+        _audioRecorder.meteringEnabled = YES; //是否启用录音测量，如果启用录音测量可以获得录音分贝等数据信息
         [_audioRecorder record];
     }
     else
