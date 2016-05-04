@@ -8,7 +8,7 @@
 
 #import "ViewController.h"
 
-@interface ViewController ()
+@interface ViewController ()<AVAudioPlayerDelegate,AVAudioRecorderDelegate>
 
 @property (strong,nonatomic) UIButton *playBtn;
 @property (strong,nonatomic) UIButton *recordBtn;
@@ -16,6 +16,7 @@
 @property (strong,nonatomic) NSTimer  *myTimer;
 @property (strong,nonatomic) AVAudioRecorder *audioRecorder;
 @property (strong,nonatomic) AVAudioPlayer   *audioPlayer;
+@property (strong,nonatomic) UILabel *showLabel;
 
 @end
 
@@ -62,6 +63,12 @@
     [_stopBtn addTarget:self action:@selector(recordClickStop:) forControlEvents:UIControlEventTouchUpInside];
 //    [self.view addSubview:_stopBtn];
     
+    _showLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 280, 50, 30)];
+    _showLabel.backgroundColor = [UIColor brownColor];
+    _showLabel.text = @"ING";
+    _showLabel.hidden = YES;
+    [self.view addSubview:_showLabel];
+    
 }
 -(void)playClick:(id)sender
 {
@@ -102,14 +109,15 @@
     }
     [self statrRecord];
 }
+static int count = 0;
 -(void)timeCount
 {
-    static int count = 0 ;
+    
     count++;
     if (count >= TIME_LIMIT) {
         [self recordClickStop:_recordBtn];
-        count = 0;
         [self stopRecord];
+        count = 0;
     }
     NSLog(@"start record count is  %d",count);
 }
@@ -161,7 +169,7 @@
                               [NSNumber numberWithInt:AVAudioQualityHigh],AVEncoderAudioQualityKey,
                               [NSNumber numberWithBool:NO],AVLinearPCMIsBigEndianKey,
                               [NSNumber numberWithBool:NO],AVLinearPCMIsFloatKey,
-//                              @128000,AVEncoderBitRateKey,
+                              @128000,AVEncoderBitRateKey,
                               nil];
     
     NSString *docPath = [[self documentPath]stringByAppendingPathComponent:DOCFILE];
@@ -186,12 +194,29 @@
         NSLog(@"创建录音机对象时发生错误，错误信息：%@",recorderr.localizedDescription);
         return;
     }
+    //展示录音中
+    _showLabel.hidden = NO;
+    _showLabel.frame = CGRectMake(20, 280, 50, 30);
+    _showLabel.text = @"ING";
 }
 
 //录音成功
 - (void)audioRecorderDidFinishRecording:(AVAudioRecorder *)recorder successfully:(BOOL)flag
 {
     NSLog(@"录音成功");
+    
+    [UIView animateWithDuration:0.8
+                     animations:^{
+                         CGRect frame = _showLabel.frame;
+                         frame.size.width = (float)count/TIME_LIMIT * (self.view.frame.size.width-40);
+                         _showLabel.frame = frame;
+                     } completion:^(BOOL finished) {
+                         _showLabel.text = @"DONE";
+                          count = 0;
+                     }];
+    
+    
+    
 }
 //录音失败
 - (void)audioRecorderEncodeErrorDidOccur:(AVAudioRecorder *)recorder error:(NSError *)error
@@ -201,6 +226,7 @@
 -(void)stopRecord
 {
     [self.audioRecorder stop];
+   
 }
 
 - (void)didReceiveMemoryWarning {

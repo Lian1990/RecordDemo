@@ -10,7 +10,7 @@
 
 #import <AVFoundation/AVFoundation.h>
 
-@interface ViewController : UIViewController<AVAudioPlayerDelegate,AVAudioRecorderDelegate>
+@interface ViewController : UIViewController
 
 
 @end
