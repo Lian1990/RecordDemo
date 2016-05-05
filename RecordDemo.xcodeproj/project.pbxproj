@@ -17,6 +17,7 @@
 		FB63A4A11CD9E1B300A46AC1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB63A4A01CD9E1B300A46AC1 /* Images.xcassets */; };
 		FB63A4A41CD9E1B300A46AC1 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB63A4A21CD9E1B300A46AC1 /* LaunchScreen.xib */; };
 		FB63A4B01CD9E1B300A46AC1 /* RecordDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FB63A4AF1CD9E1B300A46AC1 /* RecordDemoTests.m */; };
+		FBBCA8171CDAEA1400F8B266 /* libmp3lame.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FBBCA8161CDAEA1400F8B266 /* libmp3lame.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +47,8 @@
 		FB63A4A91CD9E1B300A46AC1 /* RecordDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RecordDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB63A4AE1CD9E1B300A46AC1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FB63A4AF1CD9E1B300A46AC1 /* RecordDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RecordDemoTests.m; sourceTree = "<group>"; };
+		FBBCA8151CDAEA1400F8B266 /* lame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lame.h; sourceTree = "<group>"; };
+		FBBCA8161CDAEA1400F8B266 /* libmp3lame.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libmp3lame.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +57,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FB5F68781CD9E77C00CAAAA5 /* CoreGraphics.framework in Frameworks */,
+				FBBCA8171CDAEA1400F8B266 /* libmp3lame.a in Frameworks */,
 				FB5F68761CD9E77400CAAAA5 /* UIKit.framework in Frameworks */,
 				FB5F68741CD9E76E00CAAAA5 /* AVFoundation.framework in Frameworks */,
 			);
@@ -93,6 +97,7 @@
 		FB63A4921CD9E1B300A46AC1 /* RecordDemo */ = {
 			isa = PBXGroup;
 			children = (
+				FBBCA8141CDAEA1400F8B266 /* lame */,
 				FB63A4971CD9E1B300A46AC1 /* AppDelegate.h */,
 				FB63A4981CD9E1B300A46AC1 /* AppDelegate.m */,
 				FB63A49A1CD9E1B300A46AC1 /* ViewController.h */,
@@ -129,6 +134,15 @@
 				FB63A4AE1CD9E1B300A46AC1 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		FBBCA8141CDAEA1400F8B266 /* lame */ = {
+			isa = PBXGroup;
+			children = (
+				FBBCA8151CDAEA1400F8B266 /* lame.h */,
+				FBBCA8161CDAEA1400F8B266 /* libmp3lame.a */,
+			);
+			path = lame;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -359,8 +373,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = RecordDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/RecordDemo/lame",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -369,8 +388,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = RecordDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/RecordDemo/lame",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
